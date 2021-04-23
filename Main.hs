@@ -18,6 +18,9 @@ import qualified Data.ByteString.Lazy          as LBS
 import qualified Data.Text.Encoding            as TE
 import qualified Data.Text.Lazy.Encoding       as LTE
 import           Witch
+import qualified Data.Aeson as Aeson
+import qualified Data.Aeson.Lens as AesonL
+import qualified Turtle as Turtle
 
 data Person = Person
   { name :: !T.Text
@@ -55,6 +58,28 @@ Jane,28
 
 randomAges :: IO [Int]
 randomAges = R.newStdGen >>= pure . take 10 . R.randomRs (1, 100)
+
+
+randomJson = [NI.trimming|
+{
+    "firstName": "Rack",
+    "lastName": "Jackon",
+    "gender": "man",
+    "age": 24,
+    "address": {
+        "streetAddress": "126",
+        "city": "San Jone",
+        "state": "CA",
+        "postalCode": "394221"
+    },
+    "phoneNumbers": [
+        { "type": "home", "number": "7383627627" }
+    ]
+}
+|]
+
+turtleExample :: Turtle.MonadIO io => io Turtle.ExitCode 
+turtleExample = Turtle.proc "date" [] mempty
 
 main :: IO ()
 main = putStrLn "Hello, Haskell!"
